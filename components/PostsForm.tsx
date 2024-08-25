@@ -1,13 +1,15 @@
 "use client";
+import { createPost } from "@/libs/action";
 import React from "react";
 
 function PostsForm() {
   const [title, setTitle] = React.useState<string>("");
   const [content, setContent] = React.useState<string>("");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log({ title, content });
+    const newPost = await createPost({ title, content });
+    console.log(newPost);
   }
 
   return (

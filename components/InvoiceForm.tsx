@@ -1,13 +1,15 @@
 "use client";
+import { createInvoice } from "@/libs/action";
 import React from "react";
 
 function InvoiceForm() {
   const [total, setTotal] = React.useState<string>("");
   const [currency, setCurrency] = React.useState<string>("");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log({ total, currency });
+    const newInvoice = await createInvoice({ total: +total, currency });
+    console.log(newInvoice);
   }
 
   return (
