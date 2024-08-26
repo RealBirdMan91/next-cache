@@ -1,25 +1,25 @@
 import PostsForm from "@/components/PostsForm";
-import { fetchAllInvoices, fetchAllPosts } from "@/libs/data";
 import React from "react";
+import { getQueryClient } from "../get-query-client";
+import { fetchAllPosts } from "@/libs/action";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import PostsList from "@/components/PostsList";
 
-async function PageOne() {
-  const allPosts = await fetchAllPosts();
+async function PostsPage() {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    queryKey: ["posts"],
+    queryFn: () => fetchAllPosts(),
+  });
   return (
     <div className="flex flex-col gap-6">
       <h1 className="text-3xl">Fetching all Posts</h1>
-
-      <ul className="max-h-[300px] overflow-y-auto border rounded-md">
-        {allPosts.map((post) => (
-          <li key={post.id}>
-            <span>{post.title}</span>
-            <span>{post.content?.slice(0, 10)}</span>
-          </li>
-        ))}
-      </ul>
-
-      <PostsForm />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PostsList />
+        <PostsForm />
+      </HydrationBoundary>
     </div>
   );
 }
 
-export default PageOne;
+export default PostsPage;

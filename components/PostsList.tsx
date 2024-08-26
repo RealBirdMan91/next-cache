@@ -1,11 +1,15 @@
-import { Post } from "@prisma/client";
+"use client";
 import React from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { fetchAllPosts } from "@/libs/action";
 
-type Props = {
-  posts: Post[];
-};
+function PostsList() {
+  const { data: posts, isLoading } = useSuspenseQuery({
+    queryKey: ["posts"],
+    queryFn: () => fetchAllPosts(),
+  });
+  console.log(isLoading);
 
-function PostsList({ posts }: Props) {
   return (
     <div className="border rounded-md p-2">
       <h2 className="text-lg text-red-400">Posts</h2>

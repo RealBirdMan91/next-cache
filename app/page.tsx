@@ -1,23 +1,22 @@
-import InvoiceForm from "@/components/InvoiceForm";
-import InvoicesList from "@/components/InvoicesList";
+import PostPageWrapper from "@/components/PostPageWrapper";
 import PostsForm from "@/components/PostsForm";
 import PostsList from "@/components/PostsList";
-import { fetchLatestInvoices, fetchLatestPosts } from "@/libs/data";
+
+import { Suspense } from "react";
 
 async function Home() {
-  const posts = await fetchLatestPosts();
-  const invoices = await fetchLatestInvoices();
-
   return (
     <div>
       <h1 className="text-3xl">HOME</h1>
       <div className="flex gap-4">
-        <div>
+        {/* <div>
           <InvoicesList invoices={invoices} />
           <InvoiceForm />
-        </div>
+        </div> */}
         <div>
-          <PostsList posts={posts} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <PostPageWrapper />
+          </Suspense>
           <PostsForm />
         </div>
       </div>

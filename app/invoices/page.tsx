@@ -1,12 +1,12 @@
 import InvoiceForm from "@/components/InvoiceForm";
-import { fetchAllInvoices } from "@/libs/data";
+//import { fetchAllInvoices } from "@/libs/data";
 import React from "react";
 
-async function PageOne() {
-  const allInvoices = await fetchAllInvoices();
+async function InvoicesPage() {
+  //const allInvoices = await fetchAllInvoices();
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-3xl">Fetching all Invoices</h1>
+      {/*    <h1 className="text-3xl">Fetching all Invoices</h1>
 
       <ul className="max-h-[300px] overflow-y-auto border rounded-md">
         {allInvoices.map((invoice) => (
@@ -18,9 +18,9 @@ async function PageOne() {
           </li>
         ))}
       </ul>
-      <InvoiceForm />
+      <InvoiceForm /> */}
     </div>
   );
 }
 
-export default PageOne;
+export default InvoicesPage;

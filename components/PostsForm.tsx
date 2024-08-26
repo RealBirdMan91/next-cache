@@ -1,15 +1,25 @@
 "use client";
 import { createPost } from "@/libs/action";
 import React from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function PostsForm() {
   const [title, setTitle] = React.useState<string>("");
   const [content, setContent] = React.useState<string>("");
+  const queryClient = useQueryClient();
+
+  const { mutateAsync } = useMutation({
+    mutationFn: (data: { title: string; content: string }) => createPost(data),
+    onSuccess: () => {
+      setTitle("");
+      setContent("");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const newPost = await createPost({ title, content });
-    console.log(newPost);
+    await mutateAsync({ title, content });
   }
 
   return (
